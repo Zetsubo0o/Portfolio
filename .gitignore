@@ -1,0 +1,17 @@
+# IntelliJ
+.idea/
+
+# Node
+node_modules/
+dist/
+build/
+
+# Env
+.env
+
+# Java / Spring Boot
+target/
+*.log
+
+# OS
+.DS_Store
