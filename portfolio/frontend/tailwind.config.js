@@ -8,19 +8,19 @@ export default {
     extend: {
       colors: {
         // Midnight Amber — inspired by Marine Drive city lights
-        surface: '#0A1628',          // deep midnight navy
-        'surface-card': '#0F1E35',   // slightly lifted card surface
-        'surface-muted': '#162942',  // muted surface for subtle blocks
+        surface: '#070E1A',          // deepest midnight — almost black navy
+        'surface-card': '#090F1C',   // barely lifted — almost same as surface
+        'surface-muted': '#0C1423',  // muted surface for subtle blocks
         'surface-invert': '#F8FAFC', // ivory inverse surface
         accent: '#F5A623',            // warm amber-gold (city lights)
         'accent-hover': '#D4881C',
         'accent-light': 'rgba(245, 166, 35, 0.10)',
         'accent-secondary': '#EAB464',
-        heading: '#F8FAFC',           // ivory headings
-        body: '#CBD5E1',              // soft slate for body
-        muted: '#94A3B8',             // dimmer slate for meta
-        line: 'rgba(255, 255, 255, 0.08)',
-        'line-strong': 'rgba(255, 255, 255, 0.16)',
+        heading: '#F9FAFB',           // pure near-white headings
+        body: '#B8C4D4',              // cooler, more refined body text
+        muted: '#7A8FA6',             // dimmer slate for meta
+        line: 'rgba(255, 255, 255, 0.06)',
+        'line-strong': 'rgba(255, 255, 255, 0.12)',
 
         // Theme-specific color sets
         // Cobalt Elegance

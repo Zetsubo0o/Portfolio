@@ -10,7 +10,7 @@ export default function ServiceRow({ service, index = 0 }) {
     <div>
       <Link
         to={to}
-        className="group block rounded-btn border border-white/8 bg-surface-card hover:border-accent/30 hover:bg-white/[0.02] transition-all duration-300 p-6 md:p-8"
+        className="group block rounded-btn border border-white/8 bg-transparent hover:border-accent/25 transition-all duration-300 p-6 md:p-8"
       >
         <div className="grid grid-cols-12 gap-4 md:gap-6 items-center">
           {/* Number */}

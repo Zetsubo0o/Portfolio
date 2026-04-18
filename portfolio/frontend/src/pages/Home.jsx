@@ -26,8 +26,16 @@ export default function Home() {
     <div className="pt-16">
       {/* ─── Hero (centered, tight) ─── */}
       <section className="relative min-h-[calc(100vh-8rem)] flex items-center overflow-hidden">
-        <div className="pointer-events-none absolute -top-40 -right-40 h-[36rem] w-[36rem] rounded-full bg-accent/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-40 -left-40 h-[32rem] w-[32rem] rounded-full bg-amber-500/5 blur-3xl" />
+        {/* Central golden atmospheric glow — like the reference */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0"
+          style={{
+            height: '70%',
+            background: 'radial-gradient(ellipse 70% 55% at 50% 0%, rgba(245,166,35,0.10) 0%, rgba(245,166,35,0.03) 55%, transparent 100%)',
+          }}
+        />
+        <div className="pointer-events-none absolute -top-40 -right-40 h-[40rem] w-[40rem] rounded-full bg-accent/8 blur-3xl" style={{ opacity: 0.5 }} />
+        <div className="pointer-events-none absolute -bottom-40 -left-40 h-[36rem] w-[36rem] rounded-full bg-amber-500/5 blur-3xl" style={{ opacity: 0.4 }} />
 
         <div className="max-w-5xl mx-auto px-6 py-10 w-full relative flex flex-col items-center text-center">
           {/* Status pill */}
@@ -100,7 +108,7 @@ export default function Home() {
       </section>
 
       {/* ─── Technical skills marquee strip ─── */}
-      <section className="border-y border-white/5 bg-white/[0.015] overflow-hidden">
+      <section className="border-y border-white/5 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-center gap-x-10 gap-y-3 flex-wrap text-xs uppercase tracking-[0.25em] text-muted">
           <span className="text-accent/70">✦ Stack</span>
           {techSkills.map((c) => (
@@ -177,7 +185,7 @@ export default function Home() {
         <div className="flex flex-col md:grid md:grid-cols-2 lg:flex lg:flex-row gap-3 items-stretch">
           {processSteps.map((step, i) => (
             <React.Fragment key={step.step}>
-              <div className="rounded-btn border border-white/8 bg-surface-card hover:border-accent/30 transition-colors p-5 flex flex-col flex-1 min-w-0">
+              <div className="rounded-btn border border-white/8 bg-transparent hover:border-accent/25 transition-colors p-5 flex flex-col flex-1 min-w-0">
                 <div className="font-display text-3xl text-white/20 mb-4 leading-none" style={{ fontWeight: 500 }}>
                   {step.step}
                 </div>
@@ -199,7 +207,13 @@ export default function Home() {
       {/* ─── Big portrait side-by-side with summary ─── */}
       <section className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          <div className="lg:col-span-6 relative overflow-hidden rounded-btn border border-white/10 bg-surface-card">
+          <div
+            className="lg:col-span-6 relative overflow-hidden rounded-btn bg-surface-card"
+            style={{
+              border: '1px solid rgba(245,166,35,0.18)',
+              boxShadow: '0 0 40px 4px rgba(245,166,35,0.10), 0 0 80px 12px rgba(245,166,35,0.05)',
+            }}
+          >
             <img
               src="/pranav.jpg"
               alt="Pranav Kumar"
@@ -207,7 +221,7 @@ export default function Home() {
               decoding="async"
               className="w-full h-[60vh] lg:h-[70vh] object-cover"
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface/70 via-transparent to-transparent" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent" />
           </div>
 
           <div className="lg:col-span-6">
@@ -246,7 +260,7 @@ export default function Home() {
           </h2>
           <div className="space-y-3">
             {generalFaqs.map((faq, i) => (
-              <div key={i} className="rounded-btn border border-white/8 bg-surface-card overflow-hidden">
+              <div key={i} className="rounded-btn border border-white/8 bg-transparent overflow-hidden">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full flex items-center justify-between gap-6 text-left p-5 hover:bg-surface-muted/50 transition-colors"
@@ -267,7 +281,7 @@ export default function Home() {
 
       {/* ─── Final CTA ─── */}
       <section className="section-container">
-        <div className="rounded-btn border border-white/10 bg-surface-card p-10 md:p-16 text-center">
+        <div className="rounded-btn border border-white/8 bg-transparent p-10 md:p-16 text-center">
           <p className="text-xs uppercase tracking-[0.3em] text-accent mb-6">
             Let's talk
           </p>

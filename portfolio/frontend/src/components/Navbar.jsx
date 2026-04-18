@@ -40,7 +40,11 @@ export default function Navbar() {
       initial={{ y: 0 }}
       animate={{ y: isVisible ? 0 : -100 }}
       transition={{ duration: 0.2 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-md border-b border-white/5"
+      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md"
+      style={{
+        background: 'rgba(7, 14, 26, 0.92)',
+        borderBottom: '1px solid rgba(245,166,35,0.08)',
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Left: photo + wordmark */}
@@ -49,17 +53,19 @@ export default function Navbar() {
           className="group flex items-center gap-2.5"
           aria-label="Home"
         >
-          <img
-            src="/pranav.jpg"
-            alt="Pranav"
-            width="36"
-            height="36"
-            fetchpriority="high"
-            decoding="async"
-            className="h-9 w-9 rounded-full object-cover border border-white/15 group-hover:border-accent transition-colors"
-          />
+          <span className="avatar-ring inline-flex">
+            <img
+              src="/pranav.jpg"
+              alt="Pranav"
+              width="36"
+              height="36"
+              fetchpriority="high"
+              decoding="async"
+              className="h-9 w-9 rounded-full object-cover"
+            />
+          </span>
           <span className="font-display text-[22px] tracking-tight text-heading group-hover:text-accent transition-colors leading-none" style={{ fontWeight: 500 }}>
-            Pranav
+            Pranav <span className="text-accent">.</span>
           </span>
         </Link>
 

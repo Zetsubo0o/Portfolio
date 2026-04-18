@@ -20,33 +20,38 @@ body {
 }
 
 ::selection {
-  background: rgba(245, 166, 35, 0.28);
-  color: #F8FAFC;
+  background: rgba(245, 166, 35, 0.22);
+  color: #F9FAFB;
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0A1628;
+  background: #070E1A;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: rgba(245,166,35,0.25);
   border-radius: 6px;
-  border: 2px solid #0A1628;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: rgba(245,166,35,0.45);
 }
 
 @layer components {
   .btn-primary {
-    @apply px-6 py-3 bg-accent text-surface font-semibold rounded-btn hover:bg-accent-hover transition-colors duration-200 inline-flex items-center gap-2 text-sm;
+    @apply px-7 py-3 bg-accent text-surface font-semibold rounded-btn hover:bg-accent-hover transition-all duration-200 inline-flex items-center gap-2 text-sm tracking-wide;
+    box-shadow: 0 0 18px rgba(245,166,35,0.25), 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 0 26px rgba(245,166,35,0.38), 0 2px 12px rgba(0,0,0,0.4);
   }
 
   .btn-secondary {
-    @apply px-6 py-3 border border-white/15 text-heading font-semibold rounded-btn hover:border-accent hover:text-accent transition-colors duration-200 inline-flex items-center gap-2 text-sm;
+    @apply px-7 py-3 border text-heading font-semibold rounded-btn hover:border-accent hover:text-accent transition-all duration-200 inline-flex items-center gap-2 text-sm tracking-wide;
+    border-color: rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.025);
   }
 
   .section-container {
@@ -62,14 +67,35 @@ body {
   }
 
   .card-surface {
-    @apply bg-surface-card border border-white/8;
+    @apply bg-surface-card border border-white/6;
   }
 }
 
 /* Dark select dropdown options */
 select option {
-  background-color: #0F1E35;
-  color: #F8FAFC;
+  background-color: #0C1625;
+  color: #F9FAFB;
+}
+
+/* Golden avatar ring glow — applied to the wrapper, not the img */
+@keyframes ring-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 2px rgba(245,166,35,0.50),
+      0 0 14px 4px rgba(245,166,35,0.22),
+      0 0 32px 8px rgba(245,166,35,0.10);
+  }
+  50% {
+    box-shadow:
+      0 0 0 2px rgba(245,166,35,0.75),
+      0 0 20px 6px rgba(245,166,35,0.35),
+      0 0 44px 12px rgba(245,166,35,0.16);
+  }
+}
+
+.avatar-ring {
+  border-radius: 9999px;
+  animation: ring-pulse 3s ease-in-out infinite;
 }
 
 /* Reduced motion support */

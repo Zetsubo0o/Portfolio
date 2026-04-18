@@ -20,7 +20,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="border-t border-white/5 mt-20 bg-surface-card">
+    <footer className="border-t border-white/5 mt-20 bg-surface">
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Top: photo + wordmark + summary + CTA */}
         <motion.div

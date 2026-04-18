@@ -9,7 +9,7 @@ export default function ProjectCard({ project }) {
     <article className="h-full">
       <Link
         to={to}
-        className="block rounded-btn border border-white/8 bg-surface-card hover:border-accent/30 hover:bg-white/[0.02] transition-all duration-300 p-6 md:p-7 h-full flex flex-col group"
+        className="block rounded-btn border border-white/8 bg-transparent hover:border-accent/25 transition-all duration-300 p-6 md:p-7 h-full flex flex-col group"
       >
         {/* Header: number + badge + arrow */}
         <div className="flex items-center justify-between mb-5">

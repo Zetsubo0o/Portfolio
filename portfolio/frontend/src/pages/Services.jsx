@@ -14,7 +14,7 @@ export default function Services() {
       <section className="section-container">
         <div className="text-center max-w-4xl mx-auto">
           <p className="font-display italic text-accent text-lg md:text-xl mb-4">
-            What I build —
+            What I can build —
           </p>
           <h1 className="font-display text-heading leading-[0.95] tracking-tight" style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)', fontWeight: 500 }}>
             Engineering help,
