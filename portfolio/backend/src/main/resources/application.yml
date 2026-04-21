@@ -22,6 +22,12 @@ server:
   servlet:
     context-path: /
 
+# AI Chat (Groq — free, fast, no credit card needed)
+ai:
+  api-key: ${env.GROQ_API_KEY:${GROQ_API_KEY:}}
+  model: llama-3.3-70b-versatile
+  max-history: 20
+
 logging:
   level:
     root: INFO
