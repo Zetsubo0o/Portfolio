@@ -147,7 +147,7 @@ export default function Home() {
             transition={{ duration: 0.25, delay: 0.04 }}
             className="font-display italic text-accent text-xl md:text-2xl mb-3"
           >
-            Hi, I'm Pranav —
+            Hi, I'm Pranav — glad you 're here.
           </motion.p>
 
           {/* Headline — line-by-line cinematic reveal (rise + blur clear) */}
