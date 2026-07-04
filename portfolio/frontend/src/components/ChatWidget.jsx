@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { FiMessageCircle, FiX, FiSend, FiCpu, FiArrowRight, FiCalendar, FiExternalLink } from 'react-icons/fi'
+import { FiX, FiSend, FiCpu, FiArrowRight, FiCalendar, FiExternalLink } from 'react-icons/fi'
+import { BsChatText, BsEmojiSmile } from 'react-icons/bs'
+import { SMILE } from '../theme.js'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
 
@@ -16,6 +18,7 @@ export default function ChatWidget() {
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [hasUnread, setHasUnread] = useState(false)
+  const [showNudge, setShowNudge] = useState(false)
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
   const chatContainerRef = useRef(null)
@@ -29,8 +32,26 @@ export default function ChatWidget() {
     if (isOpen) {
       setTimeout(() => inputRef.current?.focus(), 300)
       setHasUnread(false)
+      setShowNudge(false)
     }
   }, [isOpen])
+
+  // One-time attention nudge: a little invite bubble pops up shortly after the
+  // visitor lands (once per session), so the assistant doesn't get overlooked.
+  useEffect(() => {
+    if (sessionStorage.getItem('chatNudgeSeen')) return
+    const show = setTimeout(() => setShowNudge(true), 3500)
+    const hide = setTimeout(() => setShowNudge(false), 13500)
+    return () => {
+      clearTimeout(show)
+      clearTimeout(hide)
+    }
+  }, [])
+
+  const dismissNudge = () => {
+    setShowNudge(false)
+    sessionStorage.setItem('chatNudgeSeen', '1')
+  }
 
   const doSend = useCallback(async (text, currentMessages) => {
     const userMessage = { role: 'user', text }
@@ -145,9 +166,9 @@ export default function ChatWidget() {
                 onClick={(e) => handleLinkClick(href, e)}
                 className="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 rounded-lg text-[12px] font-semibold transition-all duration-150"
                 style={{
-                  background: 'linear-gradient(135deg, #F5A623 0%, #D4881C 100%)',
-                  color: '#070E1A',
-                  boxShadow: '0 0 12px rgba(245,166,35,0.25)',
+                  background: 'linear-gradient(135deg, rgb(var(--accent)) 0%, rgb(var(--accent-hover)) 100%)',
+                  color: 'rgb(var(--surface))',
+                  boxShadow: '0 0 12px rgb(var(--accent) / 0.25)',
                 }}
               >
                 <FiCalendar size={13} />
@@ -175,9 +196,9 @@ export default function ChatWidget() {
               onClick={(e) => handleLinkClick(href, e)}
               className="inline-flex items-center gap-1 mt-1.5 px-2.5 py-1 rounded-md text-[11.5px] font-medium transition-all duration-150 hover:border-accent/50"
               style={{
-                color: '#F5A623',
-                background: 'rgba(245,166,35,0.08)',
-                border: '1px solid rgba(245,166,35,0.2)',
+                color: 'rgb(var(--accent))',
+                background: 'rgb(var(--accent) / 0.08)',
+                border: '1px solid rgb(var(--accent) / 0.2)',
               }}
             >
               {linkText} <FiArrowRight size={11} />
@@ -208,27 +229,83 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* Chat bubble button */}
+      {/* Chat launcher — a labeled pill with a pulsing halo + one-time nudge */}
       <AnimatePresence>
         {!isOpen && (
-          <motion.button
+          <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-            onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 group"
-            style={{
-              background: 'linear-gradient(135deg, #F5A623 0%, #D4881C 100%)',
-              boxShadow: '0 0 20px rgba(245,166,35,0.35), 0 4px 16px rgba(0,0,0,0.4)',
-            }}
-            aria-label="Open AI chat"
+            className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3"
           >
-            <FiMessageCircle size={24} className="text-surface group-hover:scale-110 transition-transform" />
-            {hasUnread && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-surface animate-pulse" />
+            {/* Attention nudge bubble — CSS entrance so it can never get stuck */}
+            {showNudge && (
+              <div
+                className="smile-nudge relative max-w-[250px] rounded-2xl rounded-br-md px-4 py-3 mr-1"
+                style={{
+                  background: 'rgb(var(--surface-card))',
+                  border: '1px solid rgb(var(--accent) / 0.25)',
+                  boxShadow: '0 12px 34px rgba(0,0,0,0.4)',
+                }}
+              >
+                <button
+                  onClick={dismissNudge}
+                  aria-label="Dismiss"
+                  className="absolute -top-2 -right-2 w-5 h-5 rounded-full flex items-center justify-center text-surface"
+                  style={{ background: 'rgb(var(--accent))' }}
+                >
+                  <FiX size={12} />
+                </button>
+                <p className="text-[13px] text-body leading-snug">
+                  <span className="font-semibold text-heading">Have a question?</span> Ask my AI
+                  assistant about services, pricing, or how I work.
+                </p>
+                <button
+                  onClick={() => {
+                    setIsOpen(true)
+                    dismissNudge()
+                  }}
+                  className="mt-2 inline-flex items-center gap-1 text-[12px] font-semibold text-accent hover:gap-1.5 transition-all"
+                >
+                  Start chatting <FiArrowRight size={12} />
+                </button>
+              </div>
             )}
-          </motion.button>
+
+            <button
+              onClick={() => setIsOpen(true)}
+              className="chat-float relative flex items-center gap-2.5 h-14 pl-2.5 pr-4 sm:pr-5 rounded-full shadow-lg group"
+              style={{
+                background: 'linear-gradient(135deg, rgb(var(--accent)) 0%, rgb(var(--accent-hover)) 100%)',
+                boxShadow: '0 0 22px rgb(var(--accent) / 0.45), 0 6px 20px rgba(0,0,0,0.45)',
+              }}
+              aria-label="Open AI chat assistant"
+            >
+              {/* Pulsing attention halo */}
+              <span
+                className="absolute inset-0 rounded-full animate-ping pointer-events-none"
+                style={{ background: 'rgb(var(--accent) / 0.35)', animationDuration: '2.2s' }}
+              />
+              <span
+                className="relative flex items-center justify-center w-9 h-9 rounded-full shrink-0"
+                style={{ background: 'rgb(var(--surface) / 0.18)' }}
+              >
+                {SMILE ? (
+                  <BsEmojiSmile size={20} className="text-surface" />
+                ) : (
+                  <BsChatText size={19} className="text-surface" />
+                )}
+              </span>
+              {/* Label */}
+              <span className="relative text-surface font-semibold text-sm whitespace-nowrap pr-1">
+                Ask me anything
+              </span>
+              {hasUnread && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-surface animate-pulse" />
+              )}
+            </button>
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -243,25 +320,25 @@ export default function ChatWidget() {
             className="fixed bottom-6 right-6 z-50 w-[390px] max-w-[calc(100vw-2rem)] flex flex-col rounded-2xl overflow-hidden"
             style={{
               height: 'min(600px, calc(100vh - 6rem))',
-              background: '#070E1A',
-              border: '1px solid rgba(245,166,35,0.15)',
-              boxShadow: '0 0 40px rgba(245,166,35,0.12), 0 8px 32px rgba(0,0,0,0.6)',
+              background: 'rgb(var(--surface))',
+              border: '1px solid rgb(var(--accent) / 0.15)',
+              boxShadow: '0 0 40px rgb(var(--accent) / 0.12), 0 8px 32px rgba(0,0,0,0.6)',
             }}
           >
             {/* Header */}
             <div
               className="flex items-center justify-between px-5 py-4 shrink-0"
               style={{
-                background: 'linear-gradient(180deg, rgba(245,166,35,0.08) 0%, transparent 100%)',
-                borderBottom: '1px solid rgba(245,166,35,0.1)',
+                background: 'linear-gradient(180deg, rgb(var(--accent) / 0.08) 0%, transparent 100%)',
+                borderBottom: '1px solid rgb(var(--accent) / 0.1)',
               }}
             >
               <div className="flex items-center gap-3">
                 <div
                   className="w-9 h-9 rounded-full flex items-center justify-center"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(245,166,35,0.2) 0%, rgba(245,166,35,0.08) 100%)',
-                    border: '1px solid rgba(245,166,35,0.25)',
+                    background: 'linear-gradient(135deg, rgb(var(--accent) / 0.2) 0%, rgb(var(--accent) / 0.08) 100%)',
+                    border: '1px solid rgb(var(--accent) / 0.25)',
                   }}
                 >
                   <FiCpu size={18} className="text-accent" />
@@ -292,7 +369,7 @@ export default function ChatWidget() {
               className="flex-1 overflow-y-auto px-4 py-4 space-y-3"
               style={{
                 scrollbarWidth: 'thin',
-                scrollbarColor: 'rgba(245,166,35,0.2) transparent',
+                scrollbarColor: 'rgb(var(--accent) / 0.2) transparent',
               }}
             >
               {messages.map((msg, i) => {
@@ -318,11 +395,11 @@ export default function ChatWidget() {
                         style={
                           msg.role === 'user'
                             ? {
-                                background: 'linear-gradient(135deg, #F5A623 0%, #D4881C 100%)',
+                                background: 'linear-gradient(135deg, rgb(var(--accent)) 0%, rgb(var(--accent-hover)) 100%)',
                               }
                             : {
-                                background: 'rgba(255,255,255,0.04)',
-                                border: '1px solid rgba(255,255,255,0.06)',
+                                background: 'rgb(var(--ink) / 0.04)',
+                                border: '1px solid rgb(var(--ink) / 0.06)',
                               }
                         }
                       >
@@ -344,9 +421,9 @@ export default function ChatWidget() {
                             onClick={() => handleQuickSend(s)}
                             className="text-[11px] px-2.5 py-1.5 rounded-full border transition-all duration-150 hover:border-accent/40 hover:text-accent hover:bg-accent/5"
                             style={{
-                              color: '#7A8FA6',
-                              borderColor: 'rgba(255,255,255,0.1)',
-                              background: 'rgba(255,255,255,0.02)',
+                              color: 'rgb(var(--muted))',
+                              borderColor: 'rgb(var(--ink) / 0.1)',
+                              background: 'rgb(var(--ink) / 0.02)',
                             }}
                           >
                             {s}
@@ -368,8 +445,8 @@ export default function ChatWidget() {
                   <div
                     className="px-4 py-3 rounded-2xl rounded-bl-md flex items-center gap-1.5"
                     style={{
-                      background: 'rgba(255,255,255,0.04)',
-                      border: '1px solid rgba(255,255,255,0.06)',
+                      background: 'rgb(var(--ink) / 0.04)',
+                      border: '1px solid rgb(var(--ink) / 0.06)',
                     }}
                   >
                     <span className="w-2 h-2 rounded-full bg-accent/60 animate-bounce" style={{ animationDelay: '0ms' }} />
@@ -396,9 +473,9 @@ export default function ChatWidget() {
                     onClick={() => handleQuickSend(q)}
                     className="text-[11.5px] px-3 py-1.5 rounded-full border transition-all duration-150 hover:border-accent/40 hover:text-accent"
                     style={{
-                      color: '#7A8FA6',
-                      borderColor: 'rgba(255,255,255,0.08)',
-                      background: 'rgba(255,255,255,0.02)',
+                      color: 'rgb(var(--muted))',
+                      borderColor: 'rgb(var(--ink) / 0.08)',
+                      background: 'rgb(var(--ink) / 0.02)',
                     }}
                   >
                     {q}
@@ -410,13 +487,13 @@ export default function ChatWidget() {
             {/* Input area */}
             <div
               className="px-4 py-3 shrink-0"
-              style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+              style={{ borderTop: '1px solid rgb(var(--ink) / 0.06)' }}
             >
               <div
                 className="flex items-center gap-2 rounded-xl px-4 py-2.5"
                 style={{
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: 'rgb(var(--ink) / 0.03)',
+                  border: '1px solid rgb(var(--ink) / 0.08)',
                 }}
               >
                 <input
@@ -435,7 +512,7 @@ export default function ChatWidget() {
                   disabled={!input.trim() || isLoading}
                   className="p-1.5 rounded-lg transition-all duration-150 disabled:opacity-30"
                   style={{
-                    color: input.trim() ? '#F5A623' : '#7A8FA6',
+                    color: input.trim() ? 'rgb(var(--accent))' : 'rgb(var(--muted))',
                   }}
                   aria-label="Send message"
                 >

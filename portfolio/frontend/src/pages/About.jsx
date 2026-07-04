@@ -2,8 +2,14 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { FiDownload, FiArrowRight } from 'react-icons/fi'
 import { skills } from '../data/skills'
+import usePageMeta from '../hooks/usePageMeta'
+import SmileFlourish from '../components/SmileFlourish'
 
 export default function About() {
+  usePageMeta(
+    'About — Pranav Kumar, Software Engineer & Freelance Consultant',
+    'Full-stack engineer with a production-first mindset. Java, Spring Boot, React, and microservices experience across banking and SaaS systems.'
+  )
   return (
     <div className="pt-20 pb-20">
       {/* Hero with photo */}
@@ -17,6 +23,7 @@ export default function About() {
                 <br />
                 <span className="text-gradient italic">Production-first.</span>
               </h1>
+              <SmileFlourish className="mt-4" />
               <p className="mt-8 text-lg text-body leading-relaxed max-w-2xl">
                 I build elegant, scalable systems for teams that care about what ships. My core stack is enterprise Java — Spring Boot, microservices, multi-country banking integrations — but the work I enjoy most is where engineering moves a real number: cost down, uptime up, revenue unblocked.
               </p>

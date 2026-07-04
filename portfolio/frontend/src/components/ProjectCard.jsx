@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom'
 import { FiArrowUpRight } from 'react-icons/fi'
 import TechBadge from './TechBadge'
+import Tilt from './Tilt'
 
 export default function ProjectCard({ project }) {
   const to = project.slug ? `/projects/${project.slug}` : '/projects'
 
   return (
-    <article className="h-full">
+    <Tilt max={5} className="h-full">
       <Link
         to={to}
-        className="block rounded-btn border border-white/8 bg-transparent hover:border-accent/25 transition-all duration-300 p-6 md:p-7 h-full flex flex-col group"
+        className="block rounded-btn border border-white/8 bg-surface-card hover:border-accent/25 transition-all duration-300 p-6 md:p-7 h-full flex flex-col group"
       >
         {/* Header: number + badge + arrow */}
         <div className="flex items-center justify-between mb-5">
@@ -90,6 +91,6 @@ export default function ProjectCard({ project }) {
           <FiArrowUpRight className="text-accent text-sm group-hover:rotate-45 transition-transform" />
         </div>
       </Link>
-    </article>
+    </Tilt>
   )
 }

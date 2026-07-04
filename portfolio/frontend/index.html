@@ -1,20 +1,117 @@
 <!doctype html>
-<html lang="en">
+<!-- DEFAULT THEME SWITCH: change data-default-theme to "light" or "dark".
+     This is the only place you need to edit to flip the site's default mode. -->
+<html lang="en" data-default-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Apply the theme before first paint to avoid a flash of the wrong theme.
+      // Default comes from <html data-default-theme="…">; a visitor's saved
+      // toggle choice (localStorage "theme") overrides it.
+      (function () {
+        try {
+          var def = document.documentElement.getAttribute('data-default-theme') || 'dark';
+          var saved = localStorage.getItem('theme'); // 'light' | 'dark' | null
+          var isLight = saved ? saved === 'light' : def === 'light';
+          if (isLight) {
+            document.documentElement.classList.add('light');
+            document.addEventListener('DOMContentLoaded', function () {
+              var m = document.querySelector('meta[name="theme-color"]');
+              if (m) m.setAttribute('content', '#FFFAEE');
+            });
+          }
+        } catch (e) {}
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="preload" as="image" href="/pranav.jpg" fetchpriority="high" />
     <link rel="icon" href="/pranav.jpg" type="image/jpeg" />
+
+    <!-- Primary SEO -->
     <title>Pranav Kumar — Software Engineer & Freelance Consultant</title>
     <meta name="description" content="Freelance software engineer building production-grade backends, full-stack SaaS, and algorithmic trading systems. Spring Boot, React, microservices." />
+    <meta name="keywords" content="Pranav Kumar, Pranav Kumar developer, freelance software engineer, remote full-stack developer, hire freelance developer online, Java developer, Spring Boot developer, React developer, backend developer, full-stack developer, microservices architect, SaaS development, REST API development, algorithmic trading systems, workflow automation, AI integration, freelance developer worldwide, remote software engineer, freelance developer Bangalore, freelance developer Hyderabad, freelance developer Pune, freelance developer Delhi" />
+    <meta name="author" content="Pranav Kumar" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://pranavkumar.dev/" />
     <meta name="theme-color" content="#0A1628" />
+
+    <!-- Google Search Console verification.
+         Get your token: Search Console → Add property → "HTML tag" method,
+         then paste the code below (the part inside content="…") and uncomment. -->
+    <!-- <meta name="google-site-verification" content="PASTE_YOUR_VERIFICATION_CODE_HERE" /> -->
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Pranav Kumar" />
     <meta property="og:title" content="Pranav Kumar — Software Engineer & Freelance Consultant" />
     <meta property="og:description" content="Freelance software engineer building production-grade backends, full-stack SaaS, and algorithmic trading systems." />
-    <meta property="og:url" content="https://pranav-kumar.dev" />
+    <meta property="og:url" content="https://pranavkumar.dev/" />
+    <meta property="og:image" content="https://pranavkumar.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Pranav Kumar — Freelance Full-Stack Software Engineer. Production backends, SaaS platforms & AI, shipped worldwide." />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pranav Kumar — Software Engineer & Freelance Consultant" />
+    <meta name="twitter:description" content="Freelance software engineer building production-grade backends, full-stack SaaS, and algorithmic trading systems." />
+    <meta name="twitter:image" content="https://pranavkumar.dev/og-image.png" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://pranavkumar.dev/#person",
+          "name": "Pranav Kumar",
+          "alternateName": "Pranav Kumar Developer",
+          "url": "https://pranavkumar.dev/",
+          "image": "https://pranavkumar.dev/pranav.jpg",
+          "jobTitle": "Full-Stack Software Engineer & Freelance Consultant",
+          "description": "Freelance full-stack software engineer building production-grade backends, full-stack SaaS, and algorithmic trading systems.",
+          "knowsAbout": ["Full-Stack Development", "Java", "Spring Boot", "React", "Node.js", "Python", "Microservices", "REST APIs", "Docker", "MySQL", "PostgreSQL", "Algorithmic Trading", "AI Integration", "SaaS Development"],
+          "knowsLanguage": ["English", "Hindi"],
+          "email": "mailto:kpranav715@gmail.com",
+          "address": { "@type": "PostalAddress", "addressCountry": "IN" },
+          "workLocation": [
+            { "@type": "Place", "name": "Remote — Worldwide" },
+            { "@type": "Place", "name": "Bangalore, India" },
+            { "@type": "Place", "name": "Hyderabad, India" },
+            { "@type": "Place", "name": "Pune, India" },
+            { "@type": "Place", "name": "Delhi NCR, India" }
+          ],
+          "sameAs": [
+            "https://github.com/Zetsubo0o",
+            "https://www.linkedin.com/in/pranav-kumar15"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://pranavkumar.dev/#website",
+          "url": "https://pranavkumar.dev/",
+          "name": "Pranav Kumar — Software Engineer & Freelance Consultant",
+          "publisher": { "@id": "https://pranavkumar.dev/#person" }
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://pranavkumar.dev/#service",
+          "name": "Pranav Kumar — Freelance Software Engineering",
+          "url": "https://pranavkumar.dev/services",
+          "provider": { "@id": "https://pranavkumar.dev/#person" },
+          "areaServed": { "@type": "Place", "name": "Worldwide" },
+          "availableLanguage": ["English", "Hindi"],
+          "serviceType": ["Custom SaaS Applications", "Workflow Automation", "AI-Powered Features", "Backend & API Development", "Landing Pages", "Custom Builds"]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

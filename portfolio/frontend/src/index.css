@@ -2,6 +2,338 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Theme tokens ───
+   Colors are stored as space-separated RGB triplets so Tailwind's
+   opacity modifiers (e.g. bg-accent/10, border-white/8) keep working.
+   Dark ("Midnight Amber") is the default; html.light overrides. */
+:root {
+  --surface: 7 14 26;          /* #070E1A deepest midnight */
+  --surface-card: 9 15 28;     /* #090F1C */
+  --surface-muted: 12 20 35;   /* #0C1423 */
+  --heading: 249 250 251;      /* #F9FAFB */
+  --body: 184 196 212;         /* #B8C4D4 */
+  --muted: 122 143 166;        /* #7A8FA6 */
+  --ink: 255 255 255;          /* borders / hairlines base */
+  --accent: 245 166 35;        /* #F5A623 amber-gold */
+  --accent-hover: 212 136 28;  /* #D4881C */
+  --accent-secondary: 234 180 100; /* #EAB464 */
+  --nav-bg: rgba(7, 14, 26, 0.92);
+  --gradient-from: #F5A623;
+  --gradient-mid: #EAB464;
+  --gradient-to: #FFD9A0;
+  color-scheme: dark;
+}
+
+html.light {
+  --surface: 250 249 246;      /* #FAF9F6 warm ivory */
+  --surface-card: 255 255 255;
+  --surface-muted: 241 239 233;
+  --heading: 17 24 39;         /* #111827 */
+  --body: 63 75 94;            /* #3F4B5E */
+  --muted: 100 116 139;        /* #64748B */
+  --ink: 17 24 39;
+  --accent: 180 83 9;          /* #B45309 amber-700, WCAG AA on ivory */
+  --accent-hover: 146 64 14;   /* #92400E */
+  --accent-secondary: 161 98 7;
+  --nav-bg: rgba(250, 249, 246, 0.92);
+  --gradient-from: #B45309;
+  --gradient-mid: #D97706;
+  --gradient-to: #92400E;
+  color-scheme: light;
+}
+
+/* ─── SMILE theme (experiment — see src/theme.js to revert) ───
+   Warm sunshine identity with two moods: cream (default) + warm espresso dark.
+   Rounder corners shared by both. */
+html.smile {
+  --radius-btn: 20px;
+}
+
+/* SMILE light — warm cream + sunshine orange (default) */
+html.smile.light {
+  --surface: 255 250 238;      /* #FFFAEE warm cream */
+  --surface-card: 255 255 255;
+  --surface-muted: 255 241 214; /* #FFF1D6 */
+  --heading: 46 32 18;         /* #2E2012 warm brown */
+  --body: 92 74 51;            /* #5C4A33 */
+  --muted: 150 128 100;        /* #968064 */
+  --ink: 46 32 18;
+  --accent: 234 88 12;         /* #EA580C orange-600, AA on cream */
+  --accent-hover: 194 65 12;   /* #C2410C */
+  --accent-secondary: 245 158 11;
+  --nav-bg: rgba(255, 250, 238, 0.92);
+  --gradient-from: #EA580C;
+  --gradient-mid: #F59E0B;
+  --gradient-to: #D97706;
+  color-scheme: light;
+}
+
+/* SMILE dark — warm espresso + amber glow (toggle target) */
+html.smile:not(.light) {
+  --surface: 26 18 12;         /* #1A120C warm near-black */
+  --surface-card: 38 27 18;    /* #261B12 */
+  --surface-muted: 48 34 23;   /* #302217 */
+  --heading: 255 247 237;      /* #FFF7ED warm white */
+  --body: 216 199 180;         /* #D8C7B4 */
+  --muted: 160 138 114;        /* #A08A72 */
+  --ink: 255 247 237;
+  --accent: 249 130 40;        /* #F98228 brighter orange for dark */
+  --accent-hover: 234 88 12;   /* #EA580C */
+  --accent-secondary: 251 191 36;
+  --nav-bg: rgba(26, 18, 12, 0.90);
+  --gradient-from: #F98228;
+  --gradient-mid: #FBBF24;
+  --gradient-to: #EA580C;
+  color-scheme: dark;
+}
+
+/* Smile-only decorations: hidden unless the smile theme is active */
+.smile-only {
+  display: none;
+}
+html.smile .smile-only {
+  display: inline-block;
+}
+html.smile .no-smile {
+  display: none;
+}
+
+/* Section number glyphs become elegant round coins */
+html.smile .section-glyph {
+  border-radius: 9999px;
+}
+
+/* Soft sunrise gradient backdrop — subtle, warm, fixed while scrolling */
+html.smile body {
+  background:
+    radial-gradient(1100px 620px at 78% -8%, rgb(var(--accent-secondary) / 0.16), transparent 60%),
+    radial-gradient(900px 560px at 12% 4%, rgb(var(--accent) / 0.07), transparent 55%),
+    rgb(var(--surface));
+  background-attachment: fixed;
+}
+
+/* Gentle elevation on cards for a soft 3D, layered feel (black shadow works on cream + dark) */
+html.smile .bg-surface-card {
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.30), 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+html.smile:not(.light) .bg-surface-card {
+  box-shadow: 0 18px 44px -20px rgba(0, 0, 0, 0.55);
+}
+
+/* ── SMILE atmosphere: drifting aurora orbs + filmic grain ── */
+.smile-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(64px);
+  will-change: transform;
+  transform: translateZ(0);
+}
+.orb-a {
+  width: 48vw; height: 48vw; left: -10vw; top: -8vw;
+  background: radial-gradient(circle, rgb(var(--accent) / 0.55), transparent 68%);
+  animation: drift-a 18s ease-in-out infinite;
+}
+.orb-b {
+  width: 42vw; height: 42vw; right: -8vw; top: 8vh;
+  background: radial-gradient(circle, rgb(var(--accent-secondary) / 0.5), transparent 68%);
+  animation: drift-b 22s ease-in-out infinite;
+}
+.orb-c {
+  width: 40vw; height: 40vw; left: 24vw; bottom: -14vw;
+  background: radial-gradient(circle, rgb(var(--accent) / 0.4), transparent 68%);
+  animation: drift-c 26s ease-in-out infinite;
+}
+html.smile:not(.light) .smile-orb { opacity: 0.7; }
+
+.smile-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html.smile:not(.light) .smile-grain { opacity: 0.08; }
+
+/* Translate-only (no scale) so the blurred layer is GPU-composited and never
+   re-rasterized each frame — much cheaper than animating scale/filter. */
+@keyframes drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(8%, 6%, 0); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-7%, 9%, 0); }
+}
+@keyframes drift-c {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(6%, -8%, 0); }
+}
+
+/* Shimmering, glowing gradient text (SMILE) */
+@keyframes text-shimmer {
+  to { background-position: 200% center; }
+}
+html.smile .text-gradient {
+  background-size: 200% auto;
+  animation: text-shimmer 4.5s linear infinite;
+  filter: drop-shadow(0 2px 16px rgb(var(--accent) / 0.35));
+}
+
+/* One-time intro: the atmosphere and glowing smile bloom in on first load */
+@keyframes smile-bloom-in {
+  from { opacity: 0; transform: scale(1.14); }
+  to { opacity: 1; transform: scale(1); }
+}
+html.smile .smile-atmos {
+  animation: smile-bloom-in 1.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+html.smile .smile-scene-layer {
+  animation: smile-bloom-in 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+/* Elegant hover lift + warm glow on list rows (SMILE) */
+html.smile .smile-row {
+  border-radius: 12px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, background 0.3s;
+}
+html.smile .smile-row:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px -16px rgb(var(--accent) / 0.55);
+}
+
+/* Warm custom scrollbar (SMILE) */
+html.smile {
+  scrollbar-color: rgb(var(--accent) / 0.6) transparent;
+  scrollbar-width: thin;
+}
+html.smile ::-webkit-scrollbar {
+  width: 10px;
+}
+html.smile ::-webkit-scrollbar-thumb {
+  background: linear-gradient(rgb(var(--accent)), rgb(var(--accent-hover)));
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+html.smile ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(rgb(var(--accent-secondary)), rgb(var(--accent)));
+  background-clip: content-box;
+}
+
+/* Animated smile wordmark dot (SMILE) */
+.smile-mark .mark-grin {
+  opacity: 0;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: opacity 0.2s ease;
+}
+.smile-mark .mark-dot {
+  transition: opacity 0.2s ease;
+  transform-origin: center;
+}
+.group:hover .smile-mark .mark-dot {
+  opacity: 0;
+}
+.group:hover .smile-mark .mark-grin {
+  opacity: 1;
+  animation: smile-draw 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.smile .smile-row:hover { transform: none; }
+  .group:hover .smile-mark .mark-grin { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smile-orb { animation: none; }
+  html.smile .text-gradient { animation: none; }
+  html.smile .smile-atmos,
+  html.smile .smile-scene-layer { animation: none; }
+}
+html.smile .btn-primary {
+  box-shadow: 0 10px 24px -8px rgb(var(--accent) / 0.55);
+}
+
+/* ── Shimmering top hairline used on the stats band (SMILE) ── */
+.smile-shimmer-line {
+  position: relative;
+}
+.smile-shimmer-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(var(--accent) / 0.7),
+    rgb(var(--accent-secondary) / 0.9),
+    rgb(var(--accent) / 0.7),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer-slide 5s linear infinite;
+}
+@keyframes shimmer-slide {
+  to { background-position: 200% 0; }
+}
+
+/* ── Premium service rows: a growing accent bar on hover (SMILE) ── */
+html.smile .smile-row {
+  position: relative;
+  overflow: hidden;
+}
+html.smile .smile-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12%;
+  bottom: 12%;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(rgb(var(--accent)), rgb(var(--accent-secondary)));
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.smile .smile-row:hover::before {
+  transform: scaleY(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smile-shimmer-line::before { animation: none; }
+}
+
+/* Hand-drawn smile arc under the hero headline */
+@keyframes smile-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.smile-arc {
+  filter: drop-shadow(0 3px 6px rgb(var(--accent) / 0.28));
+}
+.smile-arc path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: smile-draw 1.1s ease-out 0.5s forwards;
+}
+
+/* Giant hero smile arc — draws itself on load */
+.smile-hero-arc path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: smile-draw 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smile-arc path,
+  .smile-hero-arc path {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -20,8 +352,8 @@ body {
 }
 
 ::selection {
-  background: rgba(245, 166, 35, 0.22);
-  color: #F9FAFB;
+  background: rgb(var(--accent) / 0.22);
+  color: rgb(var(--heading));
 }
 
 /* Scrollbar */
@@ -29,29 +361,29 @@ body {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #070E1A;
+  background: rgb(var(--surface));
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(245,166,35,0.25);
+  background: rgb(var(--accent) / 0.25);
   border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(245,166,35,0.45);
+  background: rgb(var(--accent) / 0.45);
 }
 
 @layer components {
   .btn-primary {
     @apply px-7 py-3 bg-accent text-surface font-semibold rounded-btn hover:bg-accent-hover transition-all duration-200 inline-flex items-center gap-2 text-sm tracking-wide;
-    box-shadow: 0 0 18px rgba(245,166,35,0.25), 0 2px 8px rgba(0,0,0,0.4);
+    box-shadow: 0 0 18px rgb(var(--accent) / 0.25), 0 2px 8px rgba(0,0,0,0.2);
   }
   .btn-primary:hover {
-    box-shadow: 0 0 26px rgba(245,166,35,0.38), 0 2px 12px rgba(0,0,0,0.4);
+    box-shadow: 0 0 26px rgb(var(--accent) / 0.38), 0 2px 12px rgba(0,0,0,0.2);
   }
 
   .btn-secondary {
     @apply px-7 py-3 border text-heading font-semibold rounded-btn hover:border-accent hover:text-accent transition-all duration-200 inline-flex items-center gap-2 text-sm tracking-wide;
-    border-color: rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.025);
+    border-color: rgb(var(--ink) / 0.12);
+    background: rgb(var(--ink) / 0.025);
   }
 
   .section-container {
@@ -59,7 +391,7 @@ body {
   }
 
   .text-gradient {
-    background: linear-gradient(90deg, #F5A623 0%, #EAB464 50%, #FFD9A0 100%);
+    background: linear-gradient(90deg, var(--gradient-from) 0%, var(--gradient-mid) 50%, var(--gradient-to) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -71,31 +403,74 @@ body {
   }
 }
 
-/* Dark select dropdown options */
+/* Themed select dropdown options */
 select option {
-  background-color: #0C1625;
-  color: #F9FAFB;
+  background-color: rgb(var(--surface-card));
+  color: rgb(var(--heading));
 }
 
 /* Golden avatar ring glow — applied to the wrapper, not the img */
 @keyframes ring-pulse {
   0%, 100% {
     box-shadow:
-      0 0 0 2px rgba(245,166,35,0.50),
-      0 0 14px 4px rgba(245,166,35,0.22),
-      0 0 32px 8px rgba(245,166,35,0.10);
+      0 0 0 2px rgb(var(--accent) / 0.50),
+      0 0 14px 4px rgb(var(--accent) / 0.22),
+      0 0 32px 8px rgb(var(--accent) / 0.10);
   }
   50% {
     box-shadow:
-      0 0 0 2px rgba(245,166,35,0.75),
-      0 0 20px 6px rgba(245,166,35,0.35),
-      0 0 44px 12px rgba(245,166,35,0.16);
+      0 0 0 2px rgb(var(--accent) / 0.75),
+      0 0 20px 6px rgb(var(--accent) / 0.35),
+      0 0 44px 12px rgb(var(--accent) / 0.16);
   }
 }
 
 .avatar-ring {
   border-radius: 9999px;
   animation: ring-pulse 3s ease-in-out infinite;
+}
+
+/* Announcement ticker: two identical halves, shift one half-width for a seamless loop */
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  animation: ticker-scroll 32s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+}
+
+/* Chat nudge bubble entrance — transform-only slide so opacity is always 1
+   (it can never get "stuck invisible" even if the animation restarts). */
+.smile-nudge {
+  opacity: 1;
+  animation: nudge-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes nudge-in {
+  from { transform: translateY(10px) scale(0.96); }
+  to { transform: translateY(0) scale(1); }
+}
+
+/* Gentle up/down float for the chat bubble button */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.chat-float {
+  animation: float-y 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-float {
+    animation: none;
+  }
 }
 
 /* Reduced motion support */

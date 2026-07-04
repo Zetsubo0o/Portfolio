@@ -4,10 +4,16 @@ import { motion } from 'framer-motion'
 import { FiArrowLeft, FiArrowRight, FiAlertCircle, FiCheckCircle, FiTarget, FiClock, FiUser } from 'react-icons/fi'
 import { projects } from '../data/projects'
 import TechBadge from '../components/TechBadge'
+import usePageMeta from '../hooks/usePageMeta'
 
 export default function ProjectDetail() {
   const { slug } = useParams()
   const project = useMemo(() => projects.find((p) => p.slug === slug), [slug])
+
+  usePageMeta(
+    project ? `${project.title} — Case Study | Pranav Kumar` : 'Projects — Pranav Kumar',
+    project?.tagline
+  )
 
   if (!project) return <Navigate to="/projects" replace />
 

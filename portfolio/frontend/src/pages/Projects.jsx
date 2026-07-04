@@ -3,8 +3,14 @@ import { Link } from 'react-router-dom'
 import { FiArrowRight } from 'react-icons/fi'
 import ProjectCard from '../components/ProjectCard'
 import { projects } from '../data/projects'
+import usePageMeta from '../hooks/usePageMeta'
+import SmileFlourish from '../components/SmileFlourish'
 
 export default function Projects() {
+  usePageMeta(
+    'Projects — Pranav Kumar | Case Studies with Real Outcomes',
+    'Case studies of shipped projects: algorithmic trading systems, Spring Boot microservices transformations, booking platforms, and AI-powered applications.'
+  )
   return (
     <div className="pt-24 pb-20">
       {/* Hero */}
@@ -14,6 +20,7 @@ export default function Projects() {
           <h1 className="font-display text-heading leading-[0.95] tracking-tight max-w-4xl" style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)', fontWeight: 500 }}>
             Case studies <span className="text-gradient italic">with receipts.</span>
           </h1>
+          <SmileFlourish className="mt-4" />
           <p className="mt-8 text-lg text-body max-w-2xl leading-relaxed">
             A closer look at recent work — the problem, the system I designed, and the measurable outcomes. Every number below is from a real, shipped project.
           </p>

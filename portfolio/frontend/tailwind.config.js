@@ -7,20 +7,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Midnight Amber — inspired by Marine Drive city lights
-        surface: '#070E1A',          // deepest midnight — almost black navy
-        'surface-card': '#090F1C',   // barely lifted — almost same as surface
-        'surface-muted': '#0C1423',  // muted surface for subtle blocks
-        'surface-invert': '#F8FAFC', // ivory inverse surface
-        accent: '#F5A623',            // warm amber-gold (city lights)
-        'accent-hover': '#D4881C',
-        'accent-light': 'rgba(245, 166, 35, 0.10)',
-        'accent-secondary': '#EAB464',
-        heading: '#F9FAFB',           // pure near-white headings
-        body: '#B8C4D4',              // cooler, more refined body text
-        muted: '#7A8FA6',             // dimmer slate for meta
-        line: 'rgba(255, 255, 255, 0.06)',
-        'line-strong': 'rgba(255, 255, 255, 0.12)',
+        // Semantic tokens driven by CSS variables (see index.css)
+        // Dark "Midnight Amber" is default; html.light swaps the palette.
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        'surface-card': 'rgb(var(--surface-card) / <alpha-value>)',
+        'surface-muted': 'rgb(var(--surface-muted) / <alpha-value>)',
+        'surface-invert': '#F8FAFC',
+        accent: 'rgb(var(--accent) / <alpha-value>)',
+        'accent-hover': 'rgb(var(--accent-hover) / <alpha-value>)',
+        'accent-light': 'rgb(var(--accent) / 0.10)',
+        'accent-secondary': 'rgb(var(--accent-secondary) / <alpha-value>)',
+        heading: 'rgb(var(--heading) / <alpha-value>)',
+        body: 'rgb(var(--body) / <alpha-value>)',
+        muted: 'rgb(var(--muted) / <alpha-value>)',
+        line: 'rgb(var(--ink) / 0.06)',
+        'line-strong': 'rgb(var(--ink) / 0.12)',
+        // "white" utilities (border-white/8, bg-white/[0.03], text-white/20)
+        // are used as low-opacity ink throughout — remap so they invert in light mode
+        white: 'rgb(var(--ink) / <alpha-value>)',
 
         // Theme-specific color sets
         // Cobalt Elegance
@@ -150,7 +154,7 @@ export default {
         'body-orange': ['Oxygen', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
-        btn: '10px',
+        btn: 'var(--radius-btn, 10px)',
       },
       animation: {
         'gradient-shift': 'gradient-shift 3s ease infinite',

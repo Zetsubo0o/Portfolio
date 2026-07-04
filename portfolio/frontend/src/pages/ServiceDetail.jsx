@@ -3,11 +3,17 @@ import { useParams, Link, Navigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiArrowLeft, FiArrowRight, FiCheck, FiClock, FiTarget, FiAward, FiChevronDown, FiMessageCircle } from 'react-icons/fi'
 import { services } from '../data/services'
+import usePageMeta from '../hooks/usePageMeta'
 
 export default function ServiceDetail() {
   const { slug } = useParams()
   const service = useMemo(() => services.find((s) => s.slug === slug), [slug])
   const [openFaq, setOpenFaq] = useState(null)
+
+  usePageMeta(
+    service ? `${service.title} — Pranav Kumar` : 'Services — Pranav Kumar',
+    service?.description || service?.tagline
+  )
 
   if (!service) return <Navigate to="/services" replace />
 

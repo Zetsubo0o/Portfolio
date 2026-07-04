@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import { FiMail, FiLinkedin, FiGithub, FiClock, FiGlobe } from 'react-icons/fi'
 import emailjs from '@emailjs/browser'
 import Toast from '../components/Toast'
+import usePageMeta from '../hooks/usePageMeta'
+import SmileFlourish from '../components/SmileFlourish'
 
 // EmailJS configuration — replace these with your actual IDs from https://dashboard.emailjs.com
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID'
@@ -25,6 +27,10 @@ const BUDGET_RANGES = [
 ]
 
 export default function Contact() {
+  usePageMeta(
+    'Contact — Pranav Kumar | Book a Call or Send a Project Brief',
+    'Get a quote within 24 hours. Book a call or send a brief for SaaS, backend, AI, or automation work. Available across US, EU, and APAC timezones.'
+  )
   const location = useLocation()
   const serviceFromState = location.state?.service || ''
 
@@ -121,6 +127,7 @@ export default function Contact() {
           <h1 className="font-display text-heading leading-[0.98] tracking-tight max-w-4xl" style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)', fontWeight: 500 }}>
             Let's build <span className="text-gradient italic">something worth shipping.</span>
           </h1>
+          <SmileFlourish className="mt-4" />
           <p className="mt-8 text-lg text-body max-w-2xl leading-relaxed">
             Have a project in mind or want to talk through an idea? Send a quick message or book a 30-minute call below.
           </p>

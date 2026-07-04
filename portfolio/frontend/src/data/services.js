@@ -5,6 +5,11 @@ import {
   FiServer,
   FiMonitor,
   FiTool,
+  FiPhone,
+  FiSearch,
+  FiFileText,
+  FiCode,
+  FiSend,
 } from 'react-icons/fi'
 
 export const services = [
@@ -313,33 +318,48 @@ export const services = [
 export const processSteps = [
   {
     step: '01',
+    label: 'Discovery',
+    icon: FiPhone,
     title: 'Free 15-min discovery call',
     description:
       'Tell me what you are trying to solve. I will tell you honestly whether I can help, roughly how much it costs, and how long it takes. No pitch, no obligation.',
+    points: ['Your goals & the problem', 'Honest fit check', 'Ballpark cost & timeline'],
   },
   {
     step: '02',
+    label: 'Assessment',
+    icon: FiSearch,
     title: 'Systems assessment',
     description:
       'Deep analysis of current workflows, architecture, and bottlenecks. I map exactly where engineering time, compute, and money are being lost — and where the leverage is.',
+    points: ['Workflow & architecture review', 'Bottleneck mapping', 'Where the leverage is'],
   },
   {
     step: '03',
+    label: 'Quote',
+    icon: FiFileText,
     title: 'Fixed-price quote in 24 hours',
     description:
       'You get a detailed proposal: exact scope, fixed price, delivery timeline, and expected outcomes. You know what you pay before a single line of code is written.',
+    points: ['Exact scope', 'Fixed price', '24-hour turnaround'],
   },
   {
     step: '04',
+    label: 'Build',
+    icon: FiCode,
     title: 'Build with weekly demos',
     description:
       'Iterative development with weekly updates, milestone demos, and full Git visibility. No black-box engineering — you see progress as it happens.',
+    points: ['Weekly demos', 'Full Git visibility', 'Milestone check-ins'],
   },
   {
     step: '05',
+    label: 'Ship',
+    icon: FiSend,
     title: 'Ship & support',
     description:
       'Deployment, monitoring, performance tuning, and an ongoing partnership if you want it. Your system grows with the business.',
+    points: ['Deploy & monitor', 'Performance tuning', 'Ongoing support'],
   },
 ]
 

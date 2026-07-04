@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
 import { FiArrowUpRight } from 'react-icons/fi'
+import Tilt from './Tilt'
 
 export default function ServiceCard({ service }) {
   const Icon = service.icon
   const to = service.slug ? `/services/${service.slug}` : '/services'
 
   return (
-    <div className="h-full">
+    <Tilt max={5} className="h-full">
       <Link
         to={to}
         className="block rounded-btn border border-white/8 bg-surface-card hover:border-accent/30 transition-colors p-7 h-full flex flex-col group"
@@ -75,6 +76,6 @@ export default function ServiceCard({ service }) {
           )}
         </div>
       </Link>
-    </div>
+    </Tilt>
   )
 }

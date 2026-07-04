@@ -4,8 +4,14 @@ import { Link } from 'react-router-dom'
 import { FiArrowRight, FiChevronDown } from 'react-icons/fi'
 import ServiceCard from '../components/ServiceCard'
 import { services, processSteps, generalFaqs } from '../data/services'
+import usePageMeta from '../hooks/usePageMeta'
+import SmileFlourish from '../components/SmileFlourish'
 
 export default function Services() {
+  usePageMeta(
+    'Services — Pranav Kumar | SaaS, Backend, AI & Automation Development',
+    'Freelance development services: custom SaaS applications, workflow automation, AI-powered features, backend & API development, and landing pages.'
+  )
   const [openFaq, setOpenFaq] = useState(null)
 
   return (
@@ -21,6 +27,7 @@ export default function Services() {
             <br />
             <span className="text-gradient italic">shipped with care.</span>
           </h1>
+          <div className="flex justify-center"><SmileFlourish className="mt-4" /></div>
           <p className="mt-6 text-base text-body max-w-2xl mx-auto leading-relaxed">
             Fixed-scope freelance engagements — full-stack SaaS, backend APIs, AI features, automation, algorithmic trading, and legacy modernization. Every engagement follows a transparent five-step process with milestone check-ins.
           </p>

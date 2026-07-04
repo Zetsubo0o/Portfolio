@@ -3,10 +3,18 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { AnimatePresence } from 'framer-motion'
 
 import Navbar from './components/Navbar'
+import Ticker from './components/Ticker'
 import Footer from './components/Footer'
 import PageTransition from './components/PageTransition'
 import ScrollToTop from './components/ScrollToTop'
 import ChatWidget from './components/ChatWidget'
+import { SMILE } from './theme.js'
+
+// SMILE-only global ambience (soft aurora + magnetic buttons). The 3D smile
+// itself lives inside the Home hero so it scrolls away with the hero.
+import MagneticButtons from './components/MagneticButtons'
+import SmileAtmosphere from './components/SmileAtmosphere'
+import SmileCursor from './components/SmileCursor'
 
 // Lazy-load pages for faster initial bundle
 const Home = lazy(() => import('./pages/Home'))
@@ -29,8 +37,16 @@ function AppContent() {
   const location = useLocation()
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-dark">
+    <div className="relative min-h-screen flex flex-col bg-dark pt-9">
+      {SMILE && (
+        <>
+          <SmileAtmosphere />
+          <MagneticButtons />
+          <SmileCursor />
+        </>
+      )}
       <ScrollToTop />
+      <Ticker />
       <Navbar />
 
       <main className="flex-grow">
