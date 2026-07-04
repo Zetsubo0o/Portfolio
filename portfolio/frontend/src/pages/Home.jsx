@@ -147,7 +147,7 @@ export default function Home() {
             transition={{ duration: 0.25, delay: 0.04 }}
             className="font-display italic text-accent text-xl md:text-2xl mb-3"
           >
-            Hi, I'm Pranav — glad you 're here.
+            Hi, I'm Pranav, glad you 're here.
           </motion.p>
 
           {/* Headline — line-by-line cinematic reveal (rise + blur clear) */}
@@ -221,7 +221,7 @@ export default function Home() {
             transition={{ duration: 0.3, delay: 0.14 }}
             className="mt-5 max-w-2xl text-base md:text-lg text-body leading-relaxed"
           >
-            A full-stack engineer crafting scalable backends, production microservices, and custom software for global teams — built with care, shipped on time.
+            A full-stack engineer crafting scalable backends, production microservices, and custom software for global teams built with care, shipped on time.
           </motion.p>
 
           {/* CTAs */}
@@ -451,10 +451,10 @@ export default function Home() {
               <span className="text-gradient italic">Freelancer.</span>
             </h3>
             <p className="mt-6 text-lg text-body leading-relaxed">
-              I care about the craft — clean architectures, thoughtful APIs, interfaces that respect the people using them. My day job is enterprise Java; my evenings are spent on custom builds for founders with a sharp idea and a tight timeline.
+              I care about the craft and clean architectures, thoughtful APIs, interfaces that respect the people using them. My day job is enterprise Java, my evenings are spent on custom builds for founders with a sharp idea and a tight timeline.
             </p>
             <p className="mt-4 text-lg text-body leading-relaxed">
-              I prefer long, honest conversations over short pitches. If you're thinking about a product, an internal tool, or a feature you can't quite find the right engineer for — let's talk.
+              I prefer long, honest conversations over short pitches. If you're thinking about a product, an internal tool, or a feature you can't quite find the right engineer for, let's talk.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
               <Link to="/contact" className="btn-primary">
@@ -533,7 +533,7 @@ export default function Home() {
             <span className="italic text-gradient">Let's build it.</span>
           </h2>
           <p className="mt-6 text-base text-body max-w-xl mx-auto">
-            Full-stack builds, microservices, landing pages, or a custom build around your exact idea — I'm open for new work.
+            Full-stack builds, microservices, landing pages, or a custom build around your exact idea, I'm open for new work.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact" className="btn-primary justify-center">
