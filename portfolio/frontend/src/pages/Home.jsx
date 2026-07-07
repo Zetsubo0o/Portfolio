@@ -437,8 +437,17 @@ export default function Home() {
               loading="lazy"
               decoding="async"
               className="w-full h-[60vh] lg:h-[70vh] object-cover"
+              style={{ filter: 'saturate(1.06) contrast(1.03)' }}
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface/80 via-transparent to-transparent" />
+            {/* Warm accent color-grade — unifies the photo with the theme palette */}
+            <div
+              className="pointer-events-none absolute inset-0 mix-blend-soft-light"
+              style={{
+                background:
+                  'linear-gradient(135deg, rgb(var(--accent) / 0.55) 0%, transparent 50%, rgb(var(--accent-secondary) / 0.35) 100%)',
+              }}
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface/85 via-surface/10 to-transparent" />
           </div>
 
           <div className="lg:col-span-6">

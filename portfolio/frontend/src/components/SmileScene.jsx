@@ -138,11 +138,20 @@ export default function SmileScene() {
     )
     visObserver.observe(el)
 
-    const tick = () => {
+    // Cap the ambient backdrop at ~30fps — half the GPU work, no visible
+    // difference for a slow drifting scene, and much smoother under load.
+    let lastRender = 0
+    const FRAME_MS = 1000 / 30
+    const tick = (now) => {
       if (!visible) {
         raf = null
         return
       }
+      raf = requestAnimationFrame(tick)
+      now = now || performance.now()
+      if (now - lastRender < FRAME_MS) return
+      lastRender = now
+
       const t = clock.getElapsedTime()
       group.rotation.x = my * 0.09
       group.rotation.y = mx * 0.11
@@ -160,7 +169,6 @@ export default function SmileScene() {
       points.rotation.y = t * 0.01 + mx * 0.09
       points.rotation.x = my * 0.07
       renderer.render(scene, camera)
-      raf = requestAnimationFrame(tick)
     }
     tick()
 

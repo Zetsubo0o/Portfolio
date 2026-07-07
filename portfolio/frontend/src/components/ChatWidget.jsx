@@ -275,7 +275,7 @@ export default function ChatWidget() {
 
             <button
               onClick={() => setIsOpen(true)}
-              className="chat-float relative flex items-center gap-2.5 h-14 pl-2.5 pr-4 sm:pr-5 rounded-full shadow-lg group"
+              className="chat-float relative w-12 h-12 rounded-full flex items-center justify-center shadow-lg group"
               style={{
                 background: 'linear-gradient(135deg, rgb(var(--accent)) 0%, rgb(var(--accent-hover)) 100%)',
                 boxShadow: '0 0 22px rgb(var(--accent) / 0.45), 0 6px 20px rgba(0,0,0,0.45)',
@@ -287,20 +287,11 @@ export default function ChatWidget() {
                 className="absolute inset-0 rounded-full animate-ping pointer-events-none"
                 style={{ background: 'rgb(var(--accent) / 0.35)', animationDuration: '2.2s' }}
               />
-              <span
-                className="relative flex items-center justify-center w-9 h-9 rounded-full shrink-0"
-                style={{ background: 'rgb(var(--surface) / 0.18)' }}
-              >
-                {SMILE ? (
-                  <BsEmojiSmile size={20} className="text-surface" />
-                ) : (
-                  <BsChatText size={19} className="text-surface" />
-                )}
-              </span>
-              {/* Label */}
-              <span className="relative text-surface font-semibold text-sm whitespace-nowrap pr-1">
-                Ask me anything
-              </span>
+              {SMILE ? (
+                <BsEmojiSmile size={21} className="relative text-surface" />
+              ) : (
+                <BsChatText size={20} className="relative text-surface" />
+              )}
               {hasUnread && (
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-400 rounded-full border-2 border-surface animate-pulse" />
               )}

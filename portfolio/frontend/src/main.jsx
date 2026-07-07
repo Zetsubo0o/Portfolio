@@ -23,3 +23,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>,
 )
+
+// Fade out the boot splash once React has taken over the #root snapshot.
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    const splash = document.getElementById('boot-splash')
+    if (splash) {
+      splash.classList.add('hide')
+      setTimeout(() => splash.remove(), 500)
+    }
+  })
+})

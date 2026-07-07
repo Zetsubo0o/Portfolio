@@ -1,7 +1,11 @@
 const items = [
-  'Open to new projects for 2026, spots are limited',
+  'Now booking new projects — spots are limited',
   'Fixed-price quote within 24 hours, no commitment',
   'Custom builds delivered in weeks, not months',
+  'Production-grade backends, SaaS & AI features',
+  'Working across US · EU · APAC timezones',
+  'Milestone-based billing — low risk, full transparency',
+  'Free 15-minute discovery call to scope your idea',
 ]
 
 /**

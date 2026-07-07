@@ -113,7 +113,16 @@ export default function SmileCursor() {
     window.addEventListener('mousemove', onMove, { passive: true })
     window.addEventListener('pointerdown', onDown, { passive: true })
 
-    const tick = () => {
+    // ~40fps cap + no canvas shadowBlur (the expensive part). The soft glow is
+    // faked cheaply with a low-alpha halo ring drawn under a solid core.
+    let lastRender = 0
+    const FRAME_MS = 1000 / 40
+    const tick = (now) => {
+      raf = particles.length > 0 ? requestAnimationFrame(tick) : null
+      now = now || performance.now()
+      if (raf != null && now - lastRender < FRAME_MS) return
+      lastRender = now
+
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i]
@@ -128,18 +137,20 @@ export default function SmileCursor() {
         }
 
         const a = Math.max(0, p.life)
+        const r = p.size * p.life
+        // Cheap glow halo (no shadowBlur).
+        ctx.beginPath()
+        ctx.fillStyle = `rgba(${p.color}, ${a * 0.25})`
+        ctx.arc(p.x, p.y, r * 2.4, 0, Math.PI * 2)
+        ctx.fill()
+        // Solid core.
         ctx.beginPath()
         ctx.fillStyle = `rgba(${p.color}, ${a})`
-        ctx.shadowBlur = 10
-        ctx.shadowColor = `rgba(${p.color}, ${a})`
-        ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2)
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
         ctx.fill()
-        ctx.shadowBlur = 0
       }
 
-      if (particles.length > 0) {
-        raf = requestAnimationFrame(tick)
-      } else {
+      if (particles.length === 0) {
         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
         raf = null
       }
